@@ -1,0 +1,65 @@
+---
+const leaderboard = [
+    { name: "Alice", score: 1500 },
+    { name: "Bob", score: 1200 },
+    { name: "Charlie", score: 1000 },
+    { name: "Dave", score: 800 },
+    { name: "Eve", score: 600 },
+];
+---
+
+<section id="leaderboard">
+    <h2>Leaderboard</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="left">Name</th>
+                <th class="right">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {
+                leaderboard.map((entry) => (
+                    <tr>
+                        <td>{entry.name}</td>
+                        <td>{entry.score}</td>
+                    </tr>
+                ))
+            }
+        </tbody>
+    </table>
+</section>
+
+<style>
+    #leaderboard {
+        font-family:
+            Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
+            sans-serif;
+        text-align: center;
+        margin: 20px auto;
+        width: 50%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        color: white;
+    }
+
+    th.left {
+        background: linear-gradient(83.21deg, #1a540d 0%, #a39422 100%);
+    }
+
+    th.right {
+        background: linear-gradient(83.21deg, #a39422 0%, #1a540d 100%);
+    }
+
+    th,
+    td {
+        border: 2px solid #a39422;
+        padding: 8px;
+    }
+</style>
