@@ -1,13 +1,3 @@
----
-const leaderboard = [
-    { name: "Alice", score: 1500 },
-    { name: "Bob", score: 1200 },
-    { name: "Charlie", score: 1000 },
-    { name: "Dave", score: 800 },
-    { name: "Eve", score: 600 },
-];
----
-
 <section id="leaderboard">
     <h2>Leaderboard</h2>
     <table>
@@ -18,17 +8,53 @@ const leaderboard = [
             </tr>
         </thead>
         <tbody>
-            {
-                leaderboard.map((entry) => (
-                    <tr>
-                        <td>{entry.name}</td>
-                        <td>{entry.score}</td>
-                    </tr>
-                ))
-            }
+            <tr>
+                <td colspan="2">Loading leaderboard data...</td>
+            </tr>
         </tbody>
     </table>
 </section>
+
+<script>
+    async function fetchLeaderboard() {
+        try {
+            const response = await fetch(
+                "https://pi-day-backend.fly.dev/scores",
+            );
+            const scores = await response.json();
+
+            const leaderboard = scores.sort(
+                (a: any, b: any) => b.score - a.score,
+            );
+
+            updateLeaderboardTable(leaderboard);
+        } catch (error) {
+            console.error("Error fetching leaderboard:", error);
+        }
+    }
+
+    function updateLeaderboardTable(leaderboard: any) {
+        const tableBody = document.querySelector("#leaderboard tbody");
+
+        if (tableBody) {
+            if (leaderboard.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="2">Leaderboard is empty.</td></tr>`;
+            } else {
+                tableBody.innerHTML = leaderboard
+                    .map(
+                        (entry: any) =>
+                            `<tr>
+                                <td class="left">${entry.name}</td>
+                                <td class="right">${entry.score}</td>
+                            </tr>`,
+                    )
+                    .join("");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+</script>
 
 <style>
     #leaderboard {
